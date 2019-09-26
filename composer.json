@@ -1,0 +1,14 @@
+{
+    "name": "sooviet/skytosiac",
+    "description": "test app",
+    "type": "project",
+    "require": {
+        "symfony/yaml": "4.3.4"
+    },
+    "authors": [
+        {
+            "name": "Soviet",
+            "email": "soviet.ligal@gmail.com"
+        }
+    ]
+}
