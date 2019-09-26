@@ -1,32 +1,19 @@
 <?php
 
-	use Symfony\Component\Yaml\Dumper;
 	use Symfony\Component\Yaml\Yaml;
 
+	require_once __DIR__ . '/vendor/autoload.php';
 
-	function parseXml($file) {
-		$arrays = [];
-		foreach ($file as $f) { // loops through the objects array in the file
+	$file = simplexml_load_file("sample-reaxml.xml"); // load xml file
 
-			print_r($f); die;
-			$priceObj = get_object_vars($f->price);
+	# RUN XPATH QUERY
 
-			if (isset($priceObj[0])) {
-
-				$state = $f->address->state;
-				$arrays["{$state}"][] = $priceObj[0];
-			}
-		}
-
-		return $arrays;
+	foreach ($file->children() as $data) {
+		$queryResult = $data->xpath('//address[display="yes"]');
 	}
 
-	$file = simplexml_load_file("../Q3/sample-reaxml.xml"); // load xml file
+	$yaml = new \Symfony\Component\Yaml\Dumper();
 
-	$array = parseXml($file);
-
-	$yaml = new Dumper();
-
-	$dumped = $yaml->dump($file, 2, 4, Yaml::DUMP_OBJECT);
+	$dumped = $yaml->dump(json_decode(json_encode($queryResult), true), 2, 4);
 
 	file_put_contents('dumped.yaml', $dumped);
